@@ -1,0 +1,21 @@
+# محیط مجازی
+venv/
+.venv/
+env/
+
+# فایل‌های پای‌کش و کش
+__pycache__/
+*.py[cod]
+*.pyo
+*.sqlite3
+
+# فایل‌های استاتیک و مدیا
+staticfiles/
+media/
+
+# فایل‌های IDE
+.vscode/
+.idea/
+
+# متغیرهای محیطی
+.env
