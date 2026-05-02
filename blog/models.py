@@ -12,7 +12,6 @@ class Post(models.Model):
     # relations
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_posts')
     title = models.CharField(max_length=200)
-    content = models.TextField()
     # data fields
     description = models.TextField()
     slug = models.SlugField(max_length=200)
