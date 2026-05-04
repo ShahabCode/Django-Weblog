@@ -2,6 +2,11 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+# Managers
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super(PublishedManager, self).get_queryset().filter(status=Post.Status.PUBLISHED)
+
 # Create your models here.
 class Post(models.Model):
 
@@ -21,6 +26,9 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)
     # choice fields
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT)
+
+    objects = models.Manager()
+    published = PublishedManager()
 
     class Meta:
         ordering = ['-publish']
