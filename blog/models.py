@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django_jalali.db import models as jmodels
 
 # Managers
 class PublishedManager(models.Manager):
@@ -15,24 +16,26 @@ class Post(models.Model):
         PUBLISHED = 'PB', 'Published'
         REJECTED = 'RJ', 'Rejected'
     # relations
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_posts')
-    title = models.CharField(max_length=200)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_posts', verbose_name="نویسنده")
+    title = models.CharField(max_length=200, verbose_name="عنوان")
     # data fields
-    description = models.TextField()
-    slug = models.SlugField(max_length=200)
+    description = models.TextField(verbose_name="توضیحات")
+    slug = models.SlugField(max_length=200, verbose_name="اسلاگ")
     # date
-    publish = models.DateTimeField(default=timezone.now)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    publish = jmodels.jDateTimeField(default=timezone.now, verbose_name="تاریخ انتشار")
+    created = jmodels.jDateTimeField(auto_now_add=True)
+    updated = jmodels.jDateTimeField(auto_now=True)
     # choice fields
-    status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT)
+    status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT, verbose_name="وضعیت")
 
-    objects = models.Manager()
+    # objects = models.Manager()
+    objects = jmodels.jManager()
     published = PublishedManager()
 
     class Meta:
         ordering = ['-publish']
         indexes = [models.Index(fields=['-publish'])]
+        verbose_name_plural = "پست ها"
 
     def __str__(self):
         return self.title
