@@ -18,3 +18,14 @@ class PostAdmin(admin.ModelAdmin):
     date_hierarchy = 'publish'
     prepopulated_fields = {'slug':  ["title"]}
     list_editable = ['status']
+
+@admin.register(Ticket)
+class TicketAdmin(admin.ModelAdmin):
+    list_display = ['name', 'subject', 'phone']
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['post', 'name', 'created', 'active']
+    list_filter = ['active', ('created', JDateFieldListFilter), ('updated', JDateFieldListFilter)]
+    search_fields = ['name', 'body']
+    list_editable = ['active']
