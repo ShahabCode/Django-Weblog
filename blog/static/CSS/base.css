@@ -1,118 +1,111 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,700");
 
 * {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-	--h: 212deg;
-	--l: 43%;
-	--brandColor: hsl(var(--h), 71%, var(--l));
-	font-family: Montserrat, sans-serif;
-	margin: 0;
-	background-color: whitesmoke;
+  --h: 212deg;
+  --l: 43%;
+  --brandColor: hsl(var(--h), 71%, var(--l));
+  font-family: Montserrat, sans-serif;
+  margin: 0;
+  background-color: whitesmoke;
 }
 
 .post-list {
-	width: 350px;
-	height: 70px;
-	background-color: #ffffff;
-	color: #721212;
-	text-align: center;
-	border-bottom: 5px solid #721212;
-	border-top: 5px solid #941616;
-	border-radius: 10px;
-	margin: 20px auto;
-	padding: 10px;
+  width: 350px;
+  min-height: 70px;
+  background-color: #ffffff;
+  color: #721212;
+  text-align: center;
+  border-bottom: 5px solid #721212;
+  border-top: 5px solid #941616;
+  border-radius: 10px;
+  margin: 20px auto;
+  padding: 10px;
 }
 
 .descr {
-	margin: 0;
-	line-height: 1.6;
+  margin: 0;
+  line-height: 1.6;
 }
 
 ol {
-	list-style: none;
-	counter-reset: list;
-	padding: 0 1rem;
+  list-style: none;
+  counter-reset: list;
+  padding: 0 1rem;
 }
 
 li {
-	--stop: calc(100% / var(--length) * var(--i));
-	--l: 62%;
-	--l2: 88%;
-	--h: calc((var(--i) - 1) * (180 / var(--length)));
-	--c1: hsl(var(--h), 71%, var(--l));
-	--c2: hsl(var(--h), 71%, var(--l2));
+  --stop: calc(100% / var(--length) * var(--i));
+  --l: 62%;
+  --l2: 88%;
+  --h: calc(var(--i) * (180 / var(--length)));
+  --c1: hsl(var(--h), 71%, var(--l));
+  --c2: hsl(var(--h), 71%, var(--l2));
 
-	position: relative;
-	counter-increment: list;
-	max-width: 45rem;
-	margin: 2rem auto;
-	padding: 2rem 1rem 1rem;
-	box-shadow: 0.1rem 0.1rem 1.5rem rgba(0, 0, 0, 0.3);
-	border-radius: 0.25rem;
-	overflow: hidden;
-	background-color: white;
+  position: relative;
+  counter-increment: list;
+  max-width: 45rem;
+  margin: 2rem auto;
+  padding: 2rem 1rem 1rem;
+  box-shadow: 0.1rem 0.1rem 1.5rem rgba(0, 0, 0, 0.3);
+  border-radius: 0.25rem;
+  overflow: hidden;
+  background-color: white;
 }
 
 li::before {
-	content: '';
-	display: block;
-	width: 100%;
-	height: 1rem;
-	position: absolute;
-	top: 0;
-	left: 0;
-	background: linear-gradient(to right, var(--c1) var(--stop), var(--c2) var(--stop));
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: linear-gradient(to right, var(--c1) var(--stop), var(--c2) var(--stop));
 }
 
 .post-title {
-	display: flex;
-	align-items: baseline;
-	margin: 0 0 1rem;
-	color: rgb(70 70 70);
+  display: flex;
+  align-items: baseline;
+  margin: 0 0 1rem;
+  color: rgb(70 70 70);
 }
 
 .post-title::before {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex: 0 0 auto;
-	margin-right: 1rem;
-	width: 3rem;
-	height: 3rem;
-	content: counter(list);
-	padding: 1rem;
-	border-radius: 50%;
-	background-color: var(--c1);
-	color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 auto;
+  margin-right: 1rem;
+  width: 3rem;
+  height: 3rem;
+  content: counter(list);
+  padding: 1rem;
+  border-radius: 50%;
+  background-color: var(--c1);
+  color: white;
 }
 
 @media (min-width: 40em) {
-	li {
-		margin: 3rem auto;
-		padding: 3rem 2rem 2rem;
-	}
+  li {
+    margin: 3rem auto;
+    padding: 3rem 2rem 2rem;
+  }
 
-	.post-title {
-		font-size: 2.25rem;
-		margin: 0 0 2rem;
-	}
+  .post-title {
+    font-size: 2.25rem;
+    margin: 0 0 2rem;
+  }
 
-	.post-title::before {
-		margin-right: 1.5rem;
-	}
+  .post-title::before {
+    margin-right: 1.5rem;
+  }
 }
 
 /*              detail              */
-
-/*
- * This is an example built for a Thinkful office hour
- * showcasing the stuff you'd want in a "minimal" / minimalist
- * blog template.
- */
-
 
 .category {
   text-transform: uppercase;
@@ -121,67 +114,65 @@ li::before {
 }
 
 .article {
-  width: 100%; /* default */
+  width: 100%;
   max-width: 640px;
   margin-left: auto;
   margin-right: auto;
   padding: 60px 30px;
 }
 
-.meta {
-}
 .post-detail {
-	width: 350px;
-	height: 70px;
-	background-color: #ffffff;
-	color: #d06309;
-	text-align: center;
-	border-bottom: 5px solid #e8791d;
-	border-top: 5px solid #e8791d;
-	border-radius: 10px;
-	margin: 20px auto;
-	padding: 10px;
+  width: 350px;
+  min-height: 70px;
+  background-color: #ffffff;
+  color: #d06309;
+  text-align: center;
+  border-bottom: 5px solid #e8791d;
+  border-top: 5px solid #e8791d;
+  border-radius: 10px;
+  margin: 20px auto;
+  padding: 10px;
+  font-size: 2.232em;
+  line-height: 1;
 }
 
 .author {
-	display: inline-block;
-	text-align: center;
-	background-color: #ffaa44;
-	color: white;
-	border-radius: 5px;
-	padding: 8px 20px;
-	margin-left: 70px;
-	width: 170px;
-	height: 35px;
+  display: inline-block;
+  text-align: center;
+  background-color: #ffaa44;
+  color: white;
+  border-radius: 5px;
+  padding: 8px 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 170px;
+  min-height: 35px;
 }
 
 .pub-date {
-	text-align: center;
-	display: inline-block;
-	padding: 8px 20px;
-	margin-left: 10px;
-	width: 180px;
-	height: 35px;
-	border-radius: 5px;
-	border: 2px solid #ffaa44;
+  display: inline-block;
+  text-align: center;
+  padding: 8px 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 180px;
+  min-height: 35px;
+  border-radius: 5px;
+  border: 2px solid #ffaa44;
 }
 
 .des {
-	text-align: center;
-	border: 2px solid #d06309;
-	width: 90%;
-	height: 500px;
-	padding: 8px 20px;
-	margin-left: 70px;
-
+  text-align: center;
+  border: 2px solid #d06309;
+  width: 90%;
+  min-height: 500px;
+  padding: 8px 20px;
+  margin-left: auto;
+  margin-right: auto;
 }
+
 .des-p {
-	text-align: center;
-}
-
-.post-detail {
-  font-size: 2.232em; /* line-height: 3 * 1.75 em; */
-  line-height: 1;
+  text-align: center;
 }
 
 h2 {
@@ -193,7 +184,6 @@ h3 {
   font-size: 1.494em;
   line-height: 1.2;
 }
-
 
 figure {
   padding: 0;
@@ -208,59 +198,83 @@ img {
 
 /*------------------Pagination--------------*/
 
-.pagination{
-	width: 400px;
-	margin: 0 auto;
-	margin: 40px auto;
-}
-.square{
-	padding: 2px 2px;
-	display: inline-block;
-	margin-right: 5px;
-	width: 35px;
-	height: 35px;
-	background-color: #941616;
-	color: white;
-	text-align: center;
-	border-radius: 5px;
-	font-size: 20px;
+.pagination {
+  width: 100%;
+  max-width: 500px;
+  margin: 40px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
 }
 
-.square-red{
-	padding: 2px 2px;
-	display: inline-block;
-	margin-right: 5px;
-	width: 35px;
-	height: 35px;
-	background-color: #2e247e;
-	color: white;
-	text-align: center;
-	border-radius: 50%;
-	font-size: 20px;
-}
-.point{
-	display: inline-block;
-	margin-right: 5px;
-	width: 35px;
-	height: 35px;
-	color: #000000;
-	text-align: center;
-	font-size: 30px;
+.square {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: #941616;
+  color: white;
+  border-radius: 5px;
+  font-size: 18px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
 }
 
+.square:hover {
+  background-color: #721212;
+}
+
+.square-red {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: #2e247e;
+  color: white;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.point {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  color: #000000;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.page-a {
+  text-decoration: none;
+  color: white;
+}
+
+.page-a:link,
+.page-a:visited,
+.page-a:hover,
 .page-a:active {
   text-decoration: none;
+  color: white;
 }
 
-.page-a:visited {
-	text-decoration: none;
-	color: white;
-}
+@media (max-width: 500px) {
+  .pagination {
+    width: 100%;
+    padding: 0 10px;
+  }
 
-.page-a:link {
-  text-decoration: none;
-}
-
-.page-a:hover {
-  text-decoration: none;
+  .square,
+  .square-red,
+  .point {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
 }
