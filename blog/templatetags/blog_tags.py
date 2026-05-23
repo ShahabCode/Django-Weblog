@@ -1,7 +1,8 @@
 from django import template
-from django.db.models import Count
-
+from django.db.models import Count, Max
+from markdown import markdown
 from ..models import Post, Comment
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 
@@ -21,8 +22,25 @@ def last_post_date():
 def most_commented_post(count=3):
     return Post.published.annotate(comments_count=Count('comments')).order_by('-comments_count')[:count]
 
+@register.simple_tag()
+def most_reading_time():
+    result = Post.published.aggregate(Max('reading_time'))
+    return result.get('reading_time__max', 0)
+
 @register.inclusion_tag('partials/latest_posts.html')
 def latest_posts(count=4):
     l_posts = Post.published.order_by('-publish')[:count]
     context = {'l_posts': l_posts}
     return context
+
+@register.filter(name='markdown')
+def to_markdown(text):
+    return mark_safe(markdown(text))
+
+BAD_WORDS = ['احمق', 'نفهم', 'بیشعور', 'گاو', 'خر']
+@register.filter()
+def become_polite(text):
+    for word in BAD_WORDS:
+        if word in text:
+            text = text.replace(word, '*' * len(word))
+    return text

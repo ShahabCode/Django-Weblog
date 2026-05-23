@@ -1,12 +1,13 @@
 {% extends 'parent/base.html' %}
 {% load jformat %}
+{% load blog_tags %}
 {% block title %}post detail{% endblock %}
 {% block content %}
     <h1 class="post-detail">post detail</h1>
     <p class="author">{{ post.title }} (by {{ post.author }}) </p>
     <span class="pub-date">{{ post.publish | jformat:"%Y/%m/%d - %H:%M" }}</span>
     <div class="des">
-    <p>{{ post.description | linebreaks }}</p>
+    <p>{{ post.description | markdown }}</p>
     </div>
 
     <div>
@@ -16,9 +17,10 @@
 
         <div>
         {% for cm in comments %}
-            {{ cm.body|linebreaks }}
-            <br>
-            {{ cm.name }}
+            <p>نام: {{ cm.name }}</p>
+            <p>متن اصلی: {{ cm.body }}</p>
+            <p>سانسور شده: {{ cm.body|become_polite }}</p>
+            <hr>
         {% empty %}
             کامنتی وجود ندارد
         {% endfor %}
