@@ -79,3 +79,17 @@ def post_comment(request, post_id):
         comment.save()
     context = {'post': post, 'comment': comment, 'form': form}
     return render(request, 'forms/comment.html', context)
+
+
+def add_post(request):
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('blog:post_detail', pk=post.id)  # یا هر اسم URL دیگه
+    else:
+        form = PostForm()
+
+    return render(request, 'forms/post.html', {'form': form})
