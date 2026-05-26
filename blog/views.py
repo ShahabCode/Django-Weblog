@@ -1,5 +1,7 @@
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
+from scripts.regsetup import description
+from django.db.models import Q
 
 from .forms import TicketForm
 from .models import *
@@ -93,3 +95,15 @@ def add_post(request):
         form = PostForm()
 
     return render(request, 'forms/post.html', {'form': form})
+
+
+def post_search(request):
+    query = None
+    results = []
+    if 'query' in request.GET:
+        form = SearchForm(data=request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            results = Post.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
+    context = {'results': results, 'query': query}
+    return render(request, 'blog/search.html', context)
