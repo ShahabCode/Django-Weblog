@@ -2,6 +2,7 @@ from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from scripts.regsetup import description
 from django.db.models import Q
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 
 from .forms import TicketForm
 from .models import *
@@ -104,6 +105,8 @@ def post_search(request):
         form = SearchForm(data=request.GET)
         if form.is_valid():
             query = form.cleaned_data['query']
-            results = Post.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
+            search_query = SearchQuery(query)
+            search_vector = SearchVector('title', weight='A') + SearchVector('description', weight='B')
+            results = Post.objects.annotate(search=search_vector, rank=SearchRank(search_vector, search_query)).filter(search=search_query).order_by('-rank')
     context = {'results': results, 'query': query}
     return render(request, 'blog/search.html', context)
