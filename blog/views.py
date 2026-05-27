@@ -2,7 +2,7 @@ from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from scripts.regsetup import description
 from django.db.models import Q
-from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.contrib.postgres.search import TrigramSimilarity
 
 from .forms import TicketForm
 from .models import *
@@ -105,8 +105,10 @@ def post_search(request):
         form = SearchForm(data=request.GET)
         if form.is_valid():
             query = form.cleaned_data['query']
-            search_query = SearchQuery(query)
-            search_vector = SearchVector('title', weight='A') + SearchVector('description', weight='B')
-            results = Post.objects.annotate(search=search_vector, rank=SearchRank(search_vector, search_query)).filter(search=search_query).order_by('-rank')
+            results1 = (Post.objects.annotate(similarity=TrigramSimilarity('title', query))
+                .filter(similarity__gt=0.1))
+            results2 = (Post.objects.annotate(similarity=TrigramSimilarity('description', query))
+                .filter(similarity__gt=0.1))
+            results = (results1 | results2).order_by('-similarity')
     context = {'results': results, 'query': query}
     return render(request, 'blog/search.html', context)
