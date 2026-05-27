@@ -7,6 +7,16 @@ admin.sites.AdminSite.site_header = "پنل مدیریت جنگو"
 admin.sites.AdminSite.site_title = "پنل"
 admin.sites.AdminSite.index_title = "پنل مدیریت"
 
+# Inlines
+class ImageInline(admin.TabularInline):
+    model = Image
+    extra = 0
+
+class CommentInline(admin.TabularInline):
+    model = Comment
+    extra = 0
+
+
 # Register your models here.
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
@@ -18,6 +28,7 @@ class PostAdmin(admin.ModelAdmin):
     date_hierarchy = 'publish'
     prepopulated_fields = {'slug':  ["title"]}
     list_editable = ['status']
+    inlines = [ImageInline, CommentInline]
 
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
@@ -29,3 +40,8 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ['active', ('created', JDateFieldListFilter), ('updated', JDateFieldListFilter)]
     search_fields = ['name', 'body']
     list_editable = ['active']
+
+
+@admin.register(Image)
+class ImageAdmin(admin.ModelAdmin):
+    list_display = ['post', 'title', 'created']
