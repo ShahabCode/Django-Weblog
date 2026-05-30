@@ -109,6 +109,8 @@ def post_search(request):
                 .filter(similarity__gt=0.1))
             results2 = (Post.objects.annotate(similarity=TrigramSimilarity('description', query))
                 .filter(similarity__gt=0.1))
-            results = (results1 | results2).order_by('-similarity')
+            results3 = (Post.objects.annotate(similarity=TrigramSimilarity('images__title', query))
+                .filter(similarity__gt=0.1))
+            results = (results1 | results2 | results3).order_by('-similarity').distinct()
     context = {'results': results, 'query': query}
     return render(request, 'blog/search.html', context)
