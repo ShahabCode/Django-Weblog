@@ -114,3 +114,9 @@ def post_search(request):
             results = (results1 | results2 | results3).order_by('-similarity').distinct()
     context = {'results': results, 'query': query}
     return render(request, 'blog/search.html', context)
+
+
+def profile(request):
+    user = request.user
+    posts = Post.objects.filter(author=user)
+    return render(request, 'blog/profile.html', {'posts': posts})
