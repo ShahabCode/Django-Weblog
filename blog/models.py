@@ -4,6 +4,10 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django_jalali.db import models as jmodels
 from django.urls import reverse
+from django_resized import ResizedImageField
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
+import os
 
 # Managers
 class PublishedManager(models.Manager):
@@ -78,9 +82,12 @@ class Comment(models.Model):
         return f"{self.name}: {self.post}"
 
 
+def get_image_upload_path(instance, filename):
+     return f"post_images/{instance.post.author.username}/{timezone.now().year}/{timezone.now().month}/{filename}"
+
 class Image(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="images", verbose_name="پست")
-    image_file = models.ImageField(upload_to="post_images/")
+    image_file = ResizedImageField(upload_to=get_image_upload_path, size=[500, 500], quality=75, crop=['middle', 'center'])
     title = models.CharField(max_length=200, verbose_name="عنوان", null=True, blank=True)
     description = models.TextField(verbose_name="توضیحات", null=True, blank=True)
     created = jmodels.jDateTimeField(auto_now_add=True)
@@ -93,3 +100,10 @@ class Image(models.Model):
 
     def __str__(self):
         return self.title if self.title else "None"
+
+
+@receiver(post_delete, sender=Image)
+def delete_image_file(sender, instance, **kwargs):
+    if instance.image_file:
+        if os.path.isfile(instance.image_file.path):
+            os.remove(instance.image_file.path)
