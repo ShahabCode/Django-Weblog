@@ -7,6 +7,7 @@ from django.urls import reverse
 from django_resized import ResizedImageField
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
+from django.template.defaultfilters import slugify
 import os
 
 # Managers
@@ -48,6 +49,11 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('blog:post_detail', args=[self.id])
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super(Post, self).save(*args, **kwargs)
 
 
 class Ticket(models.Model):
