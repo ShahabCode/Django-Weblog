@@ -37,10 +37,13 @@ class CommentForm(forms.ModelForm):
         fields = ('name', 'body')
 
 
-class PostForm(forms.ModelForm):
+class CreatePostForm(forms.ModelForm):
+    image1 = forms.ImageField(label="تصویر اول")
+    image2 = forms.ImageField(label="تصویر دوم")
+
     class Meta:
         model = Post
-        fields = ('title', 'description', 'slug', 'status', 'reading_time')
+        fields = ('title', 'description', 'reading_time')
 
 
 class SearchForm(forms.Form):

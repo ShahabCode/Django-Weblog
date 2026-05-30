@@ -84,18 +84,19 @@ def post_comment(request, post_id):
     return render(request, 'forms/comment.html', context)
 
 
-def add_post(request):
+def create_post(request):
     if request.method == "POST":
-        form = PostForm(request.POST)
+        form = CreatePostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect('blog:post_detail', pk=post.id)  # یا هر اسم URL دیگه
+            Image.objects.create(image_file=form.cleaned_data['image1'], post=post)
+            Image.objects.create(image_file=form.cleaned_data['image2'], post=post)
+            return redirect('blog:profile')
     else:
-        form = PostForm()
-
-    return render(request, 'forms/post.html', {'form': form})
+        form = CreatePostForm()
+    return render(request, 'forms/create_post.html', {'form': form})
 
 
 def post_search(request):
