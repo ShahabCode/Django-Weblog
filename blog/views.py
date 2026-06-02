@@ -1,41 +1,47 @@
-from django.http import Http404
+from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from scripts.regsetup import description
 from django.db.models import Q
 from django.contrib.postgres.search import TrigramSimilarity
-
 from .forms import TicketForm
 from .models import *
 from .forms import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView, DetailView
 from django.views.decorators.http import require_POST
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 def index(request):
-    return render(request, 'blog/index.html')
+    last_post = Post.published.all().order_by('-publish')[0]
+    return render(request, "blog/index.html", {"last_post": last_post})
+
+# class PostListView(ListView):
+#     queryset = Post.published.all()
+#     context_object_name = 'posts'
+#     paginate_by = 3
+#     template_name = 'blog/list.html'
 
 
-# def post_list(request):
-#     posts = Post.published.all()
-#     paginator = Paginator(posts, 3)
-#     page_number = request.GET.get('page', 1)
-#     try:
-#         posts = paginator.page(page_number)
-#     except EmptyPage:
-#         posts = paginator.page(paginator.num_pages)
-#     except PageNotAnInteger:
-#         posts = paginator.page(1)
-#     context = {
-#         'posts': posts,
-#     }
-#     return render(request, 'blog/list.html', context)
-
-class PostListView(ListView):
-    queryset = Post.published.all()
-    context_object_name = 'posts'
-    paginate_by = 3
-    template_name = 'blog/list.html'
+def post_list(request, category=None):
+    if category is not None:
+        posts = Post.published.filter(category=category)
+    else:
+        posts = Post.published.all()
+    paginator = Paginator(posts, 3)
+    page_number = request.GET.get('page', 1)
+    try:
+        posts = paginator.page(page_number)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    print(posts, type(posts))
+    context = {
+        'posts': posts,
+        'category': category
+    }
+    return render(request, "blog/list.html", context)
 
 
 def post_detail(request, pk):
@@ -152,3 +158,22 @@ def delete_image(request, image_id):
     image = get_object_or_404(Image, id=image_id)
     image.delete()
     return redirect('blog:profile')
+
+
+def user_login(request):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(request, username=cd['username'], password=cd['password'])
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return redirect('blog:profile')
+                else:
+                    return HttpResponse('Your account is disabled.')
+            else:
+                return HttpResponse('You are not logged in')
+    else:
+        form = LoginForm()
+    return render(request, 'forms/login.html', {'form': form})
