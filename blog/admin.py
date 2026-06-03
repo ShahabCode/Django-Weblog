@@ -47,6 +47,6 @@ class ImageAdmin(admin.ModelAdmin):
     list_display = ['post', 'title', 'created']
 
 
-@admin.register(Image)
+@admin.register(Account)
 class AccountAdmin(admin.ModelAdmin):
     list_display = ['user', 'date_of_birth', 'bio', 'job', 'photo']

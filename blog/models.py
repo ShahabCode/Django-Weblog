@@ -99,7 +99,7 @@ def get_image_upload_path(instance, filename):
 
 class Image(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="images", verbose_name="پست")
-    image_file = ResizedImageField(upload_to=get_image_upload_path, size=[500, 500], quality=75, crop=['middle', 'center'])
+    image_file = ResizedImageField(upload_to=get_image_upload_path, size=[500, 500], quality=75, crop=['middle', 'center'], null=True, blank=True)
     title = models.CharField(max_length=200, verbose_name="عنوان", null=True, blank=True)
     description = models.TextField(verbose_name="توضیحات", null=True, blank=True)
     created = jmodels.jDateTimeField(auto_now_add=True)
@@ -134,7 +134,7 @@ class Account(models.Model):
     job = models.CharField(max_length=250, verbose_name='شغل', blank=True, null=True)
 
     def __str__(self):
-        self.user.username
+        return self.user.username
 
     class Meta:
         verbose_name = "اکانت"

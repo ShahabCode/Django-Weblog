@@ -149,3 +149,4 @@ LOGIN_URL = '/blog//login/'
 LOGOUT_URL = '/blog//logout/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_CHARSET = 'utf-8'
