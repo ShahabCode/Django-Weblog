@@ -22,6 +22,15 @@ class Post(models.Model):
         DRAFT = 'DF', 'Draft'
         PUBLISHED = 'PB', 'Published'
         REJECTED = 'RJ', 'Rejected'
+
+    CATEGORY_CHOICES = (
+        ('تکنولوژی', 'تکنولوی'),
+        ('زبان برنامه نویسی', 'زبان برنامه نویسی'),
+        ('هوش مصنوعی', 'هوش مصنوعی'),
+        ('بلاکچین', 'بلاکچین'),
+        ('سایر', 'سایر'),
+    )
+
     # relations
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_posts', verbose_name="نویسنده")
     title = models.CharField(max_length=200, verbose_name="عنوان")
@@ -35,6 +44,7 @@ class Post(models.Model):
     # choice fields
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT, verbose_name="وضعیت")
     reading_time = models.PositiveIntegerField(verbose_name="زمان مطالعه")
+    category = models.CharField( verbose_name="دسته بندی", max_length=20, choices=CATEGORY_CHOICES, default='سایر')
     # objects = models.Manager()
     objects = jmodels.jManager()
     published = PublishedManager()
