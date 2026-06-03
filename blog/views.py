@@ -185,3 +185,16 @@ def delete_image(request, image_id):
 def log_out(request):
     logout(request)
     return redirect('blog:index')
+
+
+def register(request):
+    if request.method == "POST":
+        form = UserRegistrationForm(data=request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            return render(request, 'registration/register_done.html', {'user': user})
+    else:
+        form = UserRegistrationForm()
+        return render(request, 'registration/register.html', {'form': form})

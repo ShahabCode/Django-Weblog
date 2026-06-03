@@ -1,5 +1,7 @@
 from django import forms
-from .models import Comment, Post
+from django.contrib.auth.forms import UserCreationForm
+
+from .models import Comment, Post, User
 
 
 class TicketForm(forms.Form):
@@ -53,3 +55,18 @@ class SearchForm(forms.Form):
 # class LoginForm(forms.Form):
 #     username = forms.CharField(required=True)
 #     password = forms.CharField(required=True ,widget=forms.PasswordInput)
+
+
+class UserRegistrationForm(forms.ModelForm):
+    password = forms.CharField(max_length=20, widget=forms.PasswordInput, label='password')
+    password2 = forms.CharField(max_length=20, widget=forms.PasswordInput, label='repeat password')
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email')
+
+    def clean_password2(self):
+        cd = self.cleaned_data
+        if cd['password'] != cd['password2']:
+            raise forms.ValidationError('پسوردها مطابقت ندارند!')
+        return cd['password2']
