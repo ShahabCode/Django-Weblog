@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
-    last_post = Post.published.all().order_by('-publish')[0]
+    last_post = Post.published.all().order_by('-publish').first()
     return render(request, "blog/index.html", {"last_post": last_post})
 
 # class PostListView(ListView):
@@ -199,3 +199,19 @@ def register(request):
     else:
         form = UserRegistrationForm()
         return render(request, 'registration/register.html', {'form': form})
+
+
+@login_required
+def edit_account(request):
+    if request.method == "POST":
+        user_form = UserEditForm(data=request.POST, instance=request.user)
+        account_form = AccountEditForm(data=request.POST, instance=request.user.account, files=request.FILES)
+        if user_form.is_valid() and account_form.is_valid():
+            user_form.save()
+            account_form.save()
+            return redirect('blog:profile')
+    else:
+        user_form = UserEditForm(instance=request.user)
+        account_form = AccountEditForm(instance=request.user.account)
+    context = {'user_form': user_form, 'account_form': account_form}
+    return render(request, 'registration/edit_account.html', context)

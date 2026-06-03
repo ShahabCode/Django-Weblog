@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Comment, Post, User
+from .models import Comment, Post, User, Account
 
 
 class TicketForm(forms.Form):
@@ -40,8 +40,8 @@ class CommentForm(forms.ModelForm):
 
 
 class CreatePostForm(forms.ModelForm):
-    image1 = forms.ImageField(label="تصویر اول")
-    image2 = forms.ImageField(label="تصویر دوم")
+    image1 = forms.ImageField(label="تصویر اول", required=False)
+    image2 = forms.ImageField(label="تصویر دوم", required=False)
 
     class Meta:
         model = Post
@@ -70,3 +70,15 @@ class UserRegistrationForm(forms.ModelForm):
         if cd['password'] != cd['password2']:
             raise forms.ValidationError('پسوردها مطابقت ندارند!')
         return cd['password2']
+
+
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email')
+
+
+class AccountEditForm(forms.ModelForm):
+    class Meta:
+        model = Account
+        fields = ('date_of_birth', 'bio', 'job', 'photo')
