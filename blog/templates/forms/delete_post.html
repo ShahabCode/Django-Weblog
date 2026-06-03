@@ -1,16 +1,19 @@
 {% extends 'parent/base.html' %}
 {% load jformat %}
-{% block title %}Post Delete{% endblock %}
-{% block content %}
+{% block title %}post delete{% endblock %}
 
-    <h2>آیا از حذف {{ post.title }} پست مطمئن هستید؟</h2>
-    <a href="{% url 'blog:profile' %}">برگشت به صفحه پروفایل</a>
+{% block content %}
+      <div class="centered mb-4 text-center">
+    <h2 class="h1 m-0"> آیا از حذف پست ({{ post.title }})  مطمعن هستید؟ </h2>
+      <br>
+  		<a href="{% url 'blog:profile' %}" class="btn btn-dark mb-0"> برگشت به صفحه پروفایل</a>
+  </div>
     <br>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="حذف">
+        <div class="centered mb-4 text-center">
+        <button class="btn btn-primary center" type="submit">حذف</button>
+        </div>
+
     </form>
-
-
 {% endblock %}
