@@ -194,6 +194,7 @@ def register(request):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
+            Account.objects.create(user=user)
             return render(request, 'registration/register_done.html', {'user': user})
     else:
         form = UserRegistrationForm()

@@ -124,3 +124,18 @@ def delete_image_file(sender, instance, **kwargs):
     if instance.image_file:
         if os.path.isfile(instance.image_file.path):
             os.remove(instance.image_file.path)
+
+
+class Account(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='account')
+    date_of_birth = jmodels.jDateField(verbose_name='تاریخ تولد', blank=True, null=True)
+    bio = models.TextField(verbose_name='بایو', blank=True, null=True)
+    photo = ResizedImageField(upload_to='account_images/', size=[500, 500], quality=60, crop=['middle', 'center'], blank=True, null=True)
+    job = models.CharField(max_length=250, verbose_name='شغل', blank=True, null=True)
+
+    def __str__(self):
+        self.user.username
+
+    class Meta:
+        verbose_name = "اکانت"
+        verbose_name_plural = "اکانت ها"
