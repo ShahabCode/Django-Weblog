@@ -1,1 +1,5 @@
 *.css linguist-vendored
+
+blog/templates/partials/* linguist-vendored
+blog/templates/registration/* linguist-vendored
+blog/templates/forms/* linguist-vendored
