@@ -116,8 +116,11 @@ def post_search(request):
             query = form.cleaned_data['query']
             results1 = (Post.objects.annotate(similarity=TrigramSimilarity('title', query))
                 .filter(similarity__gt=0.1))
-            results2 = (Post.objects.annotate(similarity=TrigramSimilarity('description', query))
-                .filter(similarity__gt=0.1))
+            results2 = (Post.objects
+            .annotate(similarity=TrigramSimilarity('description', query))
+            .filter(
+                Q(similarity__gt=0.1) | Q(description__icontains=query)
+            ))
             results3 = (Post.objects.annotate(similarity=TrigramSimilarity('images__title', query))
                 .filter(similarity__gt=0.1))
             results = (results1 | results2 | results3).order_by('-similarity').distinct()
@@ -189,7 +192,7 @@ def log_out(request):
 
 def register(request):
     if request.method == "POST":
-        form = UserRegistrationForm(data=request.POST)
+        form = UserRegisterForm(data=request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
@@ -197,7 +200,7 @@ def register(request):
             Account.objects.create(user=user)
             return render(request, 'registration/register_done.html', {'user': user})
     else:
-        form = UserRegistrationForm()
+        form = UserRegisterForm()
         return render(request, 'registration/register.html', {'form': form})
 
 

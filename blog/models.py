@@ -1,3 +1,4 @@
+import jdatetime
 from django.core.files.images import ImageFile
 from django.db import models
 from django.utils import timezone
@@ -24,7 +25,7 @@ class Post(models.Model):
         REJECTED = 'RJ', 'Rejected'
 
     CATEGORY_CHOICES = (
-        ('تکنولوژی', 'تکنولوی'),
+        ('تکنولوژی', 'تکنولوژی'),
         ('زبان برنامه نویسی', 'زبان برنامه نویسی'),
         ('هوش مصنوعی', 'هوش مصنوعی'),
         ('بلاکچین', 'بلاکچین'),
@@ -38,7 +39,7 @@ class Post(models.Model):
     description = models.TextField(verbose_name="توضیحات")
     slug = models.SlugField(max_length=200, verbose_name="اسلاگ")
     # date
-    publish = jmodels.jDateTimeField(default=timezone.now, verbose_name="تاریخ انتشار")
+    publish = jmodels.jDateTimeField(default=jdatetime.datetime.now, verbose_name="تاریخ انتشار")
     created = jmodels.jDateTimeField(auto_now_add=True)
     updated = jmodels.jDateTimeField(auto_now=True)
     # choice fields
