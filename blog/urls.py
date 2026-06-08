@@ -2,6 +2,7 @@ from django.contrib.messages.api import success
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
+from .forms import LoginForm
 
 app_name = 'blog'
 
@@ -12,16 +13,17 @@ urlpatterns = [
     path('posts/<str:category>', views.post_list, name="post_list_category"),
     path('posts/detail/<pk>/', views.post_detail, name='post_detail'),
     # path('posts/<pk>/', views.PostDetailView.as_view(), name='post_detail'),
-    path('ticket', views.ticket, name='ticket'),
+    path('ticket/', views.ticket, name='ticket'),
     path('posts/<post_id>/comment/', views.post_comment, name='post_comment'),
     path('search/', views.post_search, name='post_search'),
     path('profile/', views.profile, name='profile'),
+    path('profile/<int:user_id>', views.user_profile, name='user_profile'),
     path('profile/create_post/', views.create_post, name='create_post'),
     path('profile/create_post/<post_id>', views.edit_post, name='edit_post'),
     path('profile/delete_post/<post_id>', views.delete_post, name='delete_post'),
     path('profile/delete_image/<image_id>', views.delete_image, name='delete_image'),
     # path('login/', views.user_login, name='login'),
-    path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('login/', auth_views.LoginView.as_view(authentication_form=LoginForm), name="login"),
     path('logout/', views.log_out, name='logout'),
     path('password_change/', auth_views.PasswordChangeView.as_view(success_url='done'), name='password_change'),
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
