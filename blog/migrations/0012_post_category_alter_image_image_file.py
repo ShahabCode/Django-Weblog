@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='post',
             name='category',
-            field=models.CharField(choices=[('تکنولوژی', 'تکنولوی'), ('زبان برنامه نویسی', 'زبان برنامه نویسی'), ('هوش مصنوعی', 'هوش مصنوعی'), ('بلاکچین', 'بلاکچین'), ('سایر', 'سایر')], default='سایر', max_length=20, verbose_name='دسته بندی'),
+            field=models.CharField(choices=[('تکنولوژی', 'تکنولوژی'), ('زبان برنامه نویسی', 'زبان برنامه نویسی'), ('هوش مصنوعی', 'هوش مصنوعی'), ('بلاکچین', 'بلاکچین'), ('سایر', 'سایر')], default='سایر', max_length=20, verbose_name='دسته بندی'),
         ),
         migrations.AlterField(
             model_name='image',
