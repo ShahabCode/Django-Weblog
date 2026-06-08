@@ -68,7 +68,7 @@
 													<img class="avatar-img rounded-circle" src="{% static 'images/avatar/av1.png' %}" alt="avatar">
 												{% endif %}
 											</div>
-											<span class="ms-3">توسط <a href="#" class="stretched-link text-reset btn-link">{{ post.author }}</a></span>
+											<span class="ms-3">توسط <a href="{% url 'blog:user_profile' post.author.id %}" class="stretched-link text-reset btn-link">{{ post.author }}</a></span>
 										</div>
 									</div>
 								</li>

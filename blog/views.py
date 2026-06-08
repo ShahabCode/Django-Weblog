@@ -215,3 +215,10 @@ def edit_account(request):
         account_form = AccountEditForm(instance=request.user.account)
     context = {'user_form': user_form, 'account_form': account_form}
     return render(request, 'registration/edit_account.html', context)
+
+
+def user_profile(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    posts = Post.objects.filter(author=user)
+    context = {'user': user, 'posts': posts}
+    return render(request, 'blog/user_profile.html', context)
