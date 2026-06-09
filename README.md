@@ -1,4 +1,4 @@
-# 📝 Django Weblog
+# 📝 CodeJournal
 
 A backend-focused weblog application built with **Django** and **PostgreSQL**.
 
